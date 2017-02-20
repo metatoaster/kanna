@@ -1,3 +1,6 @@
+import re
+import sys
+
 from curses import setupterm
 from curses import tigetnum
 from curses import tigetstr
@@ -14,19 +17,28 @@ def get_height():
 
 
 def _bleed_row(line, row, col_start):
-    output = line.lstrip()
-    spaces = len(line) - len(output)
-    col = col_start + spaces
-    start = tparm(tigetstr("cup"), row, col).decode('ascii')
-    # print up to the maximum amount of cols.
-    chars = max(0, get_width() - col)
-    print(start + output[:chars])
+    counter = col_start
+    for fragment in re.split('( +)', line):
+        if not fragment:
+            continue
+        if fragment[0] != ' ':
+            start = tparm(tigetstr("cup"), row, counter).decode('ascii')
+            # print up to the maximum amount of cols.
+            chars = max(0, get_width() - counter)
+            sys.stdout.write(start + fragment[:chars])
+
+        counter += len(fragment)
+
+    sys.stdout.write('\n')
+
 
 
 def bleed_lines(lines, col, startrow):
     setupterm()
+    # TODO abort if wrong height
     for row, line in enumerate(lines, start=startrow):
         _bleed_row(line, row, col)
+    sys.stdout.flush()
 
 
 def bleed_text(text, count, offset, startrow, period):
@@ -46,7 +58,6 @@ def main(filename, count=23, offset=23, startrow=10, period=0.084):
     with open(filename) as fd:
         text = fd.read()
 
-    # TODO abort if wrong height
     bleed_text(text, count, offset, startrow, period)
 
 
