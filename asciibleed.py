@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import re
 import sys
 
@@ -33,7 +34,6 @@ def _bleed_row(line, row, col_start):
     sys.stdout.write('\n')
 
 
-
 def bleed_lines(lines, col, startrow):
     setupterm()
     # TODO abort if wrong height
@@ -56,8 +56,33 @@ def main(filename, count=23, offset=23, startrow=10, period=0.084):
     startrow - rows to offset from the top
     """
 
-    with open(filename) as fd:
-        text = fd.read()
+    if not os.path.exists(filename):
+        sys.stderr.write("'%s' not found\n" % filename)
+        return 1
+
+    if not os.path.isfile(filename):
+        sys.stderr.write("'%s' is not a file\n" % filename)
+        return 1
+
+    try:
+        with open(filename, 'rb') as fd:
+            raw = fd.read()
+    except (IOError, OSError):
+        sys.stderr.write("error reading '%s'\n" % filename)
+        return 1
+
+    encodings = ['utf-8', 'ascii', sys.getdefaultencoding()]
+    text = None
+    for c in encodings:
+        try:
+            text = raw.decode('utf-8')
+        except UnicodeDecodeError:
+            continue
+
+    if text is None:
+        sys.stderr.write("error decoding '%s' with encodings: %s\n" % (
+            filename, ', '.join(set(encodings))))
+        return 1
 
     bleed_text(text, count, offset, startrow, period)
     return 0
