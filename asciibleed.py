@@ -59,6 +59,11 @@ def main(filename, count=23, offset=23, startrow=10, period=0.084):
         text = fd.read()
 
     bleed_text(text, count, offset, startrow, period)
+    return 0
 
 
-main('kanna.txt')
+if __name__ == '__main__':
+    if not sys.argv[1:]:
+        sys.stderr.write('usage: %s <textfile>\n' % sys.argv[0])
+        sys.exit(1)
+    sys.exit(main(sys.argv[1]))
