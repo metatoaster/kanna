@@ -35,14 +35,16 @@ def _bleed_row(line, row, col_start):
 
         counter += len(fragment)
 
-    sys.stdout.write('\n')
-
 
 def bleed_lines(lines, col, startrow):
     setupterm()
-    # TODO abort if wrong height
+    height = get_height()
     for row, line in enumerate(lines, start=startrow):
+        if row >= height:
+            break
         _bleed_row(line, row, col)
+    else:
+        sys.stdout.write('\n')
     sys.stdout.flush()
 
 
@@ -146,6 +148,7 @@ def main(
         sys.stderr.write('quitting...\n')
         return 0
 
+    sys.stdout.write('\n')
     return 0
 
 
