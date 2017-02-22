@@ -43,8 +43,6 @@ def bleed_lines(lines, col, startrow):
         if row >= height:
             break
         _bleed_row(line, row, col)
-    else:
-        sys.stdout.write('\n')
     sys.stdout.flush()
 
 
