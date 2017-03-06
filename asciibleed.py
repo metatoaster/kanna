@@ -132,7 +132,8 @@ def main(
             script = parse_script(text)
         else:
             # legacy mode; lazily generate the "script"
-            script = [[text.splitlines()]] * count
+            frame = [text.splitlines()]
+            script = (frame for i in range(count))
 
         if background:
             bg_lines = loader(background).splitlines()
