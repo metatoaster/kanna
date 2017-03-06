@@ -2,14 +2,38 @@
 
 [![ScreenShot](https://i.imgur.com/5L3OHCC.gif)](https://streamable.com/ojcd4)
 
-Reddit user /u/2hu4u was inspired by the ascii art bleeding found in the
-opening of the anime Kobayashi-san Chi no Maid Dragon Kanna and
-recreated one based on that, then someone in the thread
+Reddit user /u/2hu4u was inspired by the ascii art bleeding of Kanna
+as found in the opening of the anime "Kobayashi-san Chi no Maid Dragon",
+that they recreated one based on that.  Later someone in that Reddit
+thread
 [mentioned](https://www.reddit.com/r/anime/comments/5uxjn4/i_recreated_the_kanna_ascii_art_from_kobayashisan/ddxpkga/)
-how this needs to be done in Python... and so here it is.  Only tested
-this under Linux for now with a wide enough terminal (with small fonts).
+how this needs to be done in Python... and so here it is.
 
-Clone this repository, then run it by calling the file (original mode)
+## Requirements
+
+A standard Python installation with the `curses` library available, with
+a big enough terminal with small fonts for best effects.  Tested to work
+under Linux.  Should also work under OS X and Windows 10 with the WSL
+(Windows Subsystem for Linux) installed.  For Windows 10, it was
+reported that `bash` under `cmd` prompt.
+
+Will not work anywhere where the `curses` library is unavailable, i.e.
+standard Windows installations, will result in an import error like so:
+
+```
+C:\Users\Demo\kanna>python asciibleed.py kanna1.txt
+Traceback (most recent call last):
+  File "asciibleed.py", line 8, in <module>
+    from curses import setupterm
+  File "C:\Python27\lib\curses\__init__.py", line 15, in <module>
+    from _curses import *
+ImportError: No module named _curses
+```
+
+## Usage
+
+Clone (or download an archive of) this repository, then run it by
+calling the file (original mode)
 
 ```
 $ git clone https://github.com/metatoaster/kanna
