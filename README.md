@@ -15,7 +15,7 @@ A standard Python installation with the `curses` library available, with
 a big enough terminal with small fonts for best effects.  Tested to work
 under Linux.  Should also work under OS X and Windows 10 with the WSL
 (Windows Subsystem for Linux) installed.  For Windows 10, it was
-reported that `bash` under `cmd` prompt.
+reported to be working under `bash` inside `cmd`.
 
 Will not work anywhere where the `curses` library is unavailable, i.e.
 standard Windows installations, will result in an import error like so:
