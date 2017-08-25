@@ -59,10 +59,10 @@ def loader(filename):
     except (IOError, OSError):
         raise ValueError("error reading '%s'\n" % filename)
 
-    encodings = ['utf-8', 'ascii', default_encoding]
+    encodings = ['utf-8', default_encoding]
     for c in encodings:
         try:
-            return raw.decode('utf-8')
+            return raw.decode(c)
         except UnicodeDecodeError:
             continue
 
